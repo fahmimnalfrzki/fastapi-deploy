@@ -30,7 +30,7 @@ def add_item(added_item:dict, api_key: str = Header(None)):
         return f"Item successfully added into your cart with ID {id}"
 
 @app.put("/edit/{id}")
-def update_cart(id:int,updated_cart:dict, , api_key: str = Header(None)):
+def update_cart(id:int,updated_cart:dict , api_key: str = Header(None)):
     if id not in data['items'].keys():
         raise HTTPException(status_code=404, detail=f"Item with ID {id} not found")
     else:
