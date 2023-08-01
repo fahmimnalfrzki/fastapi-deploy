@@ -30,23 +30,23 @@ def add_item(added_item:dict, api_key: str = Header(None)):
         return f"Item successfully added into your cart with ID {id}"
 
 @app.put("/edit/{id}")
-def update_cart(id:int,updated_cart:dict):
+def update_cart(id:int,updated_cart:dict, , api_key: str = Header(None)):
     if id not in data['items'].keys():
         raise HTTPException(status_code=404, detail=f"Item with ID {id} not found")
     else:
         if api_key is None or api_key != API_KEY:
-            raise HTTPException(status_code=401, detail="Invalid API Key. You are not allowed to add data!")
+            raise HTTPException(status_code=401, detail="Invalid API Key. You are not allowed to edit data!")
         else:
             data["items"][id].update(updated_cart)
             return {"message": f"Item with ID {id} has been updated successfully."}
 
 @app.delete("/del/{id}")
-def remove_row(id:int):
+def remove_row(id:int, api_key: str = Header(None)):
     if id not in data['items'].keys():
         raise HTTPException(status_code=404, detail=f"Item with ID {id} not found")
     else:
         if api_key is None or api_key != API_KEY:
-            raise HTTPException(status_code=401, detail="Invalid API Key. You are not allowed to add data!")
+            raise HTTPException(status_code=401, detail="Invalid API Key. You are not allowed to delete data!")
         else:
             data["items"].pop(id)
             return {"message": f"Item with ID {id} has been deleted successfully."}
